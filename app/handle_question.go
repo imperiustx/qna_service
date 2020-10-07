@@ -87,3 +87,25 @@ func (a *Application) handleQuestionVoteDown(w http.ResponseWriter, r *http.Requ
 
 	a.RenderJSON(w, http.StatusOK, "updated question vote down successfully")
 }
+
+func (a *Application) handleGetAllQuestions(w http.ResponseWriter, r *http.Request) {
+
+	data, err := a.db.FindAll(questionsCollection, bson.M{})
+	if err != nil {
+		a.RenderError(w, 400, err)
+		return
+	}
+
+	a.RenderJSON(w, http.StatusOK, data)
+}
+
+func (a *Application) handleGetAllOpenQuestions(w http.ResponseWriter, r *http.Request) {
+
+	data, err := a.db.FindAll(questionsCollection, bson.M{"openQuestion": true})
+	if err != nil {
+		a.RenderError(w, 400, err)
+		return
+	}
+
+	a.RenderJSON(w, http.StatusOK, data)
+}

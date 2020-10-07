@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -132,23 +133,21 @@ func (ds *Database) FindOne(collection string, filter interface{}) (interface{},
 }
 
 // FindAll executes a find command and returns a list  matching documents in the collection.
-func (ds *Database) FindAll(collection string, filter interface{}) ([]interface{}, error) {
+func (ds *Database) FindAll(collection string, filter interface{}) ([]bson.M, error) {
 	c := ds.db.Collection(collection)
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
-	results := make([]interface{}, 0)
+	var results []bson.M
 
 	cursor, err := c.Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
 	defer cursor.Close(ctx)
-	for cursor.Next(ctx) {
-		var result interface{}
-		if err := cursor.Decode(result); err == nil {
-			results = append(results, result)
-		}
+	if err = cursor.All(ctx, &results); err != nil {
+		return nil, err
 	}
+
 	return results, nil
 }
 
@@ -176,19 +175,4 @@ func (ds *Database) Delete(collection string, filter interface{}) error {
 		return err
 	}
 	return nil
-}
-
-// Aggregate executes an aggregate command against the collection and returns a cursor over the resulting documents.
-func (ds *Database) Aggregate(collection string, pipeline interface{}, opts ...*options.AggregateOptions) (*mongo.Cursor, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
-
-	c := ds.db.Collection(collection)
-
-	cursor, err := c.Aggregate(ctx, pipeline, opts...)
-	if err != nil {
-		return nil, err
-	}
-
-	return cursor, err
 }

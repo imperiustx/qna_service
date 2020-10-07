@@ -37,6 +37,8 @@ func (a *Application) setUpRoute() {
 		r.Put("/users/{id}", a.handleUserUpdate)
 
 		r.Post("/questions", a.handleQuestionCreate)
+		r.Get("/questions", a.handleGetAllQuestions)
+		r.Get("/questions/open", a.handleGetAllOpenQuestions)
 		r.Put("/questions/{id}", a.handleQuestionUpdate)
 		r.Put("/questions/{id}/up", a.handleQuestionVoteUp)
 		r.Put("/questions/{id}/down", a.handleQuestionVoteDown)
