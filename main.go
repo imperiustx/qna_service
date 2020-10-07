@@ -1,9 +1,12 @@
 package main
 
-import "github.com/joho/godotenv"
+import (
+	"github.com/imperiustx/qna_service/app"
+	"github.com/joho/godotenv"
+)
 
 func main() {
 	godotenv.Load()
-	app := NewApplication()
-	app.Start()
+	service := app.NewApplication()
+	service.Start()
 }
