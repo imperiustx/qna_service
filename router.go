@@ -30,13 +30,11 @@ func (a *Application) setUpRoute() {
 	a.mux.Get("/health", a.handleHealthCheck)
 	a.mux.Route("/api/v1", func(r chi.Router) {
 
-		// r.Post("/admins", a.auth(a.handleAdminCreate, false, false))
-		// r.Post("/admins/login", a.auth(a.handleAdminLogin, false, false))
-		// r.Put("/admins/{id}", a.auth(a.handleAdminUpdate, true, false))
+		r.Post("/admins", a.handleAdminCreate)
+		r.Put("/admins/{id}", a.handleAdminUpdate)
 
-		// r.Post("/users", a.auth(a.handleUserCreate, false, false))
-		// r.Post("/users/login", a.auth(a.handleUserLogin, false, false))
-		// r.Put("/users/{id}", a.auth(a.handleUserUpdate, true, false))
+		r.Post("/users", a.handleUserCreate)
+		r.Put("/users/{id}", a.handleUserUpdate)
 
 	})
 	a.mux.NotFound(a.handleResourceNotFound)
