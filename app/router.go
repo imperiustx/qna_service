@@ -37,8 +37,14 @@ func (a *Application) setUpRoute() {
 		r.Put("/users/{id}", a.handleUserUpdate)
 
 		r.Post("/questions", a.handleQuestionCreate)
+		r.Put("/questions/{id}", a.handleQuestionUpdate)
+		r.Put("/questions/{id}/up", a.handleQuestionVoteUp)
+		r.Put("/questions/{id}/down", a.handleQuestionVoteDown)
 
 		r.Post("/answers", a.handleAnswerCreate)
+		r.Put("/answers/{id}", a.handleAnswerUpdate)
+		r.Put("/answers/{id}/up", a.handleAnswerVoteUp)
+		r.Put("/answers/{id}/down", a.handleAnswerVoteDown)
 
 	})
 	a.mux.NotFound(a.handleResourceNotFound)
