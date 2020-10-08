@@ -9,7 +9,8 @@
 - To run this service, open your favorite terminal then run: make build
 - If you see a line of server logs looks like below one, the server stared successfully: 
 qna_server | 2020/10/07 06:05:48 stdout: {"time":"2020-10-07T06:05:48Z","level":"info","message":"starting on port 7000"}
-- Or you can use Postman/any web browser then enter localhost:7000 If you see response like this: {"data":"welcome to qna_backend at 2020-10-07T08:20:05Z","error":"","success":true}. You are good to go
+- Or you can use Postman/any web browser then enter localhost:7000 If you see response like this: {"data":"welcome to qna_backend at 2020-10-07T08:20:05Z","error":"","success":true}. You are good to go to next step
+- import Question_and_Answer.postman_collection.json to postman and set variable url = localhost:7000 then you can call APIs 
 - To stop this service: Ctrl-C
 - To completely shutdown this service, run: make down
 

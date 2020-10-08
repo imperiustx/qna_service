@@ -15,7 +15,7 @@ func (a *Application) handleAnswerCreate(w http.ResponseWriter, r *http.Request)
 
 	err := json.NewDecoder(r.Body).Decode(&answer)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -24,7 +24,7 @@ func (a *Application) handleAnswerCreate(w http.ResponseWriter, r *http.Request)
 	answer.UserID = iToObjectID(answer.UserID)
 	data, err := a.db.Create(answersCollection, answer)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -37,7 +37,7 @@ func (a *Application) handleAnswerUpdate(w http.ResponseWriter, r *http.Request)
 
 	err := json.NewDecoder(r.Body).Decode(&answer)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -48,7 +48,7 @@ func (a *Application) handleAnswerUpdate(w http.ResponseWriter, r *http.Request)
 
 	err = a.db.Update(answersCollection, filter, update)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -65,7 +65,7 @@ func (a *Application) handleAnswerVoteUp(w http.ResponseWriter, r *http.Request)
 
 	err := a.db.Update(answersCollection, filter, update)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -82,7 +82,7 @@ func (a *Application) handleAnswerVoteDown(w http.ResponseWriter, r *http.Reques
 
 	err := a.db.Update(answersCollection, filter, update)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 

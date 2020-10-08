@@ -15,7 +15,7 @@ func (a *Application) handleQuestionCreate(w http.ResponseWriter, r *http.Reques
 
 	err := json.NewDecoder(r.Body).Decode(&question)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -23,7 +23,7 @@ func (a *Application) handleQuestionCreate(w http.ResponseWriter, r *http.Reques
 	question.UserID = iToObjectID(question.UserID)
 	data, err := a.db.Create(questionsCollection, question)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -36,7 +36,7 @@ func (a *Application) handleQuestionUpdate(w http.ResponseWriter, r *http.Reques
 
 	err := json.NewDecoder(r.Body).Decode(&question)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -47,7 +47,7 @@ func (a *Application) handleQuestionUpdate(w http.ResponseWriter, r *http.Reques
 
 	err = a.db.Update(questionsCollection, filter, update)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -64,7 +64,7 @@ func (a *Application) handleQuestionVoteUp(w http.ResponseWriter, r *http.Reques
 
 	err := a.db.Update(questionsCollection, filter, update)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -81,7 +81,7 @@ func (a *Application) handleQuestionVoteDown(w http.ResponseWriter, r *http.Requ
 
 	err := a.db.Update(questionsCollection, filter, update)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -92,7 +92,7 @@ func (a *Application) handleGetAllQuestions(w http.ResponseWriter, r *http.Reque
 
 	data, err := a.db.FindAll(questionsCollection, bson.M{})
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -103,9 +103,50 @@ func (a *Application) handleGetAllOpenQuestions(w http.ResponseWriter, r *http.R
 
 	data, err := a.db.FindAll(questionsCollection, bson.M{"openQuestion": true})
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
 	a.RenderJSON(w, http.StatusOK, data)
+}
+
+func (a *Application) handleViewQuestionAndAnswer(w http.ResponseWriter, r *http.Request) {
+	questionID, _ := primitive.ObjectIDFromHex(chi.URLParam(r, "id"))
+
+	filter := bson.M{"question_id": questionID}
+
+	pipeline := []bson.M{
+		{"$match": filter},
+		{
+			"$lookup": bson.M{
+				"from":         questionsCollection,
+				"foreignField": "_id",
+				"localField":   "question_id",
+				"as":           "question",
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$question",
+				"preserveNullAndEmptyArrays": false,
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         answersCollection,
+				"foreignField": "_id",
+				"localField":   "answer_id",
+				"as":           "answer",
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$answer",
+				"preserveNullAndEmptyArrays": false,
+			},
+		},
+	}
+	//TODO: handle group
+
+	a.RenderJSON(w, http.StatusOK, pipeline)
 }

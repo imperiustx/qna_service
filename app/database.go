@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"log"
 	"sync"
 	"time"
 
@@ -118,17 +119,27 @@ func (ds *Database) Find(collection string, filter interface{}) (*mongo.Cursor, 
 }
 
 // FindOne executes a find command and returns a Jmap for one document in the collection.
-func (ds *Database) FindOne(collection string, filter interface{}) (interface{}, error) {
+func (ds *Database) FindOne(collection string, filter interface{}) (bson.M, error) {
 	c := ds.db.Collection(collection)
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
-
-	r := c.FindOne(ctx, filter)
-	var result interface{}
-	err := r.Decode(result)
-	if err != nil {
+	log.Println("1")
+	// r := c.FindOne(ctx, filter)
+	var result bson.M
+	if err := c.FindOne(ctx, filter).Decode(&result); err != nil {
 		return nil, err
 	}
+	log.Println("2")
+	log.Println("<><><><><>", result)
+	// err := r.Decode(&result)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	/*
+			if err = podcastsCollection.FindOne(ctx, bson.M{}).Decode(&podcast); err != nil {
+		    log.Fatal(err)
+		}
+	*/
 	return result, nil
 }
 
@@ -175,4 +186,19 @@ func (ds *Database) Delete(collection string, filter interface{}) error {
 		return err
 	}
 	return nil
+}
+
+// Aggregate executes an aggregate command against the collection and returns a cursor over the resulting documents.
+func (ds *Database) Aggregate(collection string, pipeline interface{}, opts ...*options.AggregateOptions) (*mongo.Cursor, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	c := ds.db.Collection(collection)
+
+	cursor, err := c.Aggregate(ctx, pipeline, opts...)
+	if err != nil {
+		return nil, err
+	}
+
+	return cursor, err
 }

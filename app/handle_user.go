@@ -14,14 +14,14 @@ func (a *Application) handleUserCreate(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
 	user.ID = primitive.NewObjectID()
 	data, err := a.db.Create(usersCollection, user)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -34,7 +34,7 @@ func (a *Application) handleUserUpdate(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -45,9 +45,21 @@ func (a *Application) handleUserUpdate(w http.ResponseWriter, r *http.Request) {
 
 	err = a.db.Update(usersCollection, filter, update)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
 	a.RenderJSON(w, http.StatusOK, "updated user successfully")
+}
+
+func (a *Application) handleUserFind(w http.ResponseWriter, r *http.Request) {
+	userID, _ := primitive.ObjectIDFromHex(chi.URLParam(r, "id"))
+
+	data, err := a.db.Find(usersCollection, bson.M{"_id": userID})
+	if err != nil {
+		a.RenderError(w, 400, err.Error())
+		return
+	}
+
+	a.RenderJSON(w, http.StatusOK, data)
 }

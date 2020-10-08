@@ -14,14 +14,14 @@ func (a *Application) handleAdminCreate(w http.ResponseWriter, r *http.Request) 
 
 	err := json.NewDecoder(r.Body).Decode(&admin)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 	admin.ID = primitive.NewObjectID()
 
 	data, err := a.db.Create(adminsCollection, admin)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -34,7 +34,7 @@ func (a *Application) handleAdminUpdate(w http.ResponseWriter, r *http.Request) 
 
 	err := json.NewDecoder(r.Body).Decode(&admin)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 
@@ -45,7 +45,7 @@ func (a *Application) handleAdminUpdate(w http.ResponseWriter, r *http.Request) 
 
 	err = a.db.Update(adminsCollection, filter, update)
 	if err != nil {
-		a.RenderError(w, 400, err)
+		a.RenderError(w, 400, err.Error())
 		return
 	}
 

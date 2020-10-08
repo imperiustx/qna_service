@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "ac49b423-f5e9-4f06-b6e7-dfccdc4093c2",
+		"name": "Question_and_Answer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "{{url}}/api/v1/admins",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin1\",\n    \"email\": \"admin1@qna.com\",\n    \"password\": \"1234567\",\n    \"createdAt\": 1602052880,\n    \"updatedAt\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/admins",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:7000/api/v1/admins/5f7d6b56f48d55b0143379a7",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin1\",\n    \"email\": \"admin1@qna.com\",\n    \"password\": \"1234567890\",\n    \"createdAt\": 1602052880,\n    \"updatedAt\": 1602054262\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7000/api/v1/admins/5f7d6b56f48d55b0143379a7",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"5f7d6b56f48d55b0143379a7"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "{{url}}/api/v1/users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user4\",\n    \"email\": \"user4@qna.com\",\n    \"password\": \"1234567890\",\n    \"createdAt\": 1602052880,\n    \"updatedAt\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{url}}/api/v1/users/5f7d76410428a0c1571423d7",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user4\",\n    \"email\": \"user4@qna.com\",\n    \"password\": \"123456789\",\n    \"createdAt\": 1602052880,\n    \"updatedAt\": 1602059742\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/users/5f7d76410428a0c1571423d7",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"5f7d76410428a0c1571423d7"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "utils",
+			"item": [
+				{
+					"name": "{{url}}/health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/health",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "question",
+			"item": [
+				{
+					"name": "{{url}}/api/v1/questions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"5f7d74959f5901af0b7b0c78\",\n    \"contain\": \"how can I create an interface in go?\",\n    \"createdAt\": 1602061462,\n    \"updatedAt\": 0,\n    \"openQuestion\": true,\n    \"tags\": [\"golang\"],\n    \"votes\": {\n        \"up\": 0,\n        \"down\": 0\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/questions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{url}}/api/v1/questions/5f7d89b7fec9d486e53c2f1a",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"5f7d74959f5901af0b7b0c78\",\n    \"contain\": \"Hey everyone, how can I create an interface in go?\",\n    \"createdAt\": 1602061462,\n    \"updatedAt\": 0,\n    \"openQuestion\": true,\n    \"tags\": [\"golang\"],\n    \"votes\": {\n        \"up\": 0,\n        \"down\": 0\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/questions/5f7d89b7fec9d486e53c2f1a",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"questions",
+								"5f7d89b7fec9d486e53c2f1a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{url}}/api/v1/questions/5f7d8551afa7b7f9ac8b2c42/up",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/questions/5f7d8551afa7b7f9ac8b2c42/up",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"questions",
+								"5f7d8551afa7b7f9ac8b2c42",
+								"up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{url}}/api/v1/questions/5f7d8551afa7b7f9ac8b2c42/down",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/questions/5f7d8551afa7b7f9ac8b2c42/down",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"questions",
+								"5f7d8551afa7b7f9ac8b2c42",
+								"down"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{url}}/api/v1/questions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/questions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{url}}/api/v1/questions/open",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/questions/open",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"questions",
+								"open"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "answer",
+			"item": [
+				{
+					"name": "{{url}}/api/v1/answers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"5f7d74ba9f5901af0b7b0c7a\",\n    \"question_id\": \"5f7d8551afa7b7f9ac8b2c42\",\n    \"contain\": \"just search google man\",\n    \"createdAt\": 1602061462,\n    \"updatedAt\": 0,\n    \"votes\": {\n        \"up\": 0,\n        \"down\": 0\n    },\n    \"approvedAnswer\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/answers",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"answers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
